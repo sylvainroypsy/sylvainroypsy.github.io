@@ -9,7 +9,7 @@
 <div class="notice"><strong>Attention :</strong> les créneaux libres sont indiqués à titre indicatif. Ils ne constituent pas une réservation. Un déplacement de rendez-vous n'est effectif qu'après confirmation du cabinet.</div>
 <div class="legend"><span><i class="key" style="background:var(--pink)"></i> Libre</span></div>
 <div id="weeks" class="weeks"></div>
-<div class="request"><h2>Demander un déplacement</h2><p id="choice">Sélectionnez un créneau rose pour préparer votre demande.</p><a id="ask" class="disabled" href="#" aria-disabled="true">Préparer un courriel de demande</a><p class="hint">Le courriel préparé ne modifie pas l'agenda. N'indiquez aucune information médicale sensible dans votre message.</p></div>
+<div class="request"><h2>Demander un déplacement</h2><p id="choice">Sélectionnez un créneau rose pour préparer votre demande.</p><button id="ask" type="button" disabled style="background:var(--accent);color:white;border:0;border-radius:9px;padding:12px 16px;font:inherit;font-weight:700;opacity:.5;cursor:not-allowed">Préparer un courriel de demande</button><p class="hint">Le courriel préparé ne modifie pas l'agenda. N'indiquez aucune information médicale sensible dans votre message.</p></div>
 <p class="hint">Planning anonymisé, relevé le 23 novembre 2026. Mise à jour manuelle ; les disponibilités peuvent évoluer.</p></main>
 <script>
 "use strict";
@@ -39,8 +39,6 @@ container.addEventListener("click",ev=>{
  container.querySelectorAll("button.slot").forEach(b=>b.setAttribute("aria-pressed",String(b===btn)));
  const d=new Date(btn.dataset.date+"T12:00:00"),when=label(d)+" à "+btn.dataset.time;
  document.getElementById("choice").textContent="Créneau souhaité : "+when;
- const subject="Demande de déplacement de rendez-vous";
- const body="Bonjour Monsieur Roy,\n\nJe souhaiterais demander le déplacement de mon rendez-vous vers le créneau du "+when+".\n\nJe comprends que ce créneau est indicatif et que le changement ne sera effectif qu'après votre confirmation.\n\nBien cordialement,";
- const a=document.getElementById("ask");a.href="mailto:psy@sylvainroypsy.fr?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body);a.classList.remove("disabled");a.removeAttribute("aria-disabled")
+
 });
 </script></body></html>
