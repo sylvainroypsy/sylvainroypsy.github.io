@@ -28,7 +28,7 @@ for(let w=0;w<3;w++){
  for(let n=0;n<7;n++){
   const d=add(from,n),record=data[fmt(d)]||{free:[],full:false},cell=document.createElement("div");cell.className="day";
   const title=document.createElement("h3");title.textContent=label(d);cell.appendChild(title);
-  for(const time of record.free){const btn=document.createElement("button");btn.className="slot";btn.type="button";btn.textContent="Libre · "+time;btn.dataset.date=fmt(d);btn.dataset.time=time;btn.setAttribute("aria-pressed","false");cell.appendChild(btn)}
+  for(const time of record.free){if(fmt(d)==="2026-12-02"&&time==="15:30"){const gap=document.createElement("div");gap.style.height="36px";gap.setAttribute("aria-hidden","true");cell.appendChild(gap)}const btn=document.createElement("button");btn.className="slot";btn.type="button";btn.textContent="Libre · "+time;btn.dataset.date=fmt(d);btn.dataset.time=time;btn.setAttribute("aria-pressed","false");cell.appendChild(btn)}
   if(!record.free.length){const p=document.createElement("div");p.className="empty";p.textContent=record.full?"Complet":"Aucune disponibilité publiée";cell.appendChild(p)}
   daysEl.appendChild(cell)
  }
