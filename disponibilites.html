@@ -9,7 +9,7 @@
 <div class="notice"><strong>Attention :</strong> les créneaux libres sont indiqués à titre indicatif. Ils ne constituent pas une réservation. Un déplacement de rendez-vous n'est effectif qu'après confirmation du cabinet.</div>
 <div class="legend"><span><i class="key" style="background:var(--pink)"></i> Libre</span></div>
 <div id="weeks" class="weeks"></div>
-<div class="request"><h2>Demander un déplacement</h2><p id="choice">Sélectionnez un créneau rose pour préparer votre demande.</p><button id="ask" type="button" disabled style="background:var(--accent);color:white;border:0;border-radius:9px;padding:12px 16px;font:inherit;font-weight:700;opacity:.5;cursor:not-allowed">Préparer un courriel de demande</button><p class="hint">Le courriel préparé ne modifie pas l'agenda. N'indiquez aucune information médicale sensible dans votre message.</p></div>
+<div class="request"><h2>Demander un rendez-vous ou un déplacement</h2><p id="choice">Sélectionnez un créneau rose pour préparer votre demande.</p><button id="ask" type="button" disabled style="background:var(--accent);color:white;border:0;border-radius:9px;padding:12px 16px;font:inherit;font-weight:700;cursor:not-allowed">Préparer mon message</button><div id="message-area" hidden style="margin-top:16px"><label for="message-text" style="display:block;font-weight:700;margin-bottom:8px">Message à copier</label><textarea id="message-text" rows="7" style="display:block;width:100%;padding:12px;border:1px solid var(--line);border-radius:8px;font:inherit" readonly></textarea><button id="copy-message" type="button" style="margin-top:10px;padding:10px 15px;border:0;border-radius:8px;background:var(--accent);color:white;font:inherit;cursor:pointer">Copier le message</button><span id="copy-status" role="status" style="margin-left:12px"></span></div><p class="hint">Ce message ne modifie pas l'agenda. La demande reste soumise à confirmation. N'indiquez aucune information médicale sensible.</p></div>
 <p class="hint">Planning anonymisé, relevé le 23 novembre 2026. Mise à jour manuelle ; les disponibilités peuvent évoluer.</p></main>
 <script>
 "use strict";
@@ -39,6 +39,19 @@ container.addEventListener("click",ev=>{
  container.querySelectorAll("button.slot").forEach(b=>b.setAttribute("aria-pressed",String(b===btn)));
  const d=new Date(btn.dataset.date+"T12:00:00"),when=label(d)+" à "+btn.dataset.time;
  document.getElementById("choice").textContent="Créneau souhaité : "+when;
-
+ const ask=document.getElementById("ask");ask.disabled=false;ask.style.opacity="1";ask.style.cursor="pointer";
+ document.getElementById("message-area").hidden=true;
+ document.getElementById("copy-status").textContent="";
+ ask.dataset.when=when;
+});
+document.getElementById("ask").addEventListener("click",()=>{
+ const when=document.getElementById("ask").dataset.when;if(!when)return;
+ document.getElementById("message-text").value="Bonjour Monsieur Roy,\n\nJe souhaiterais savoir s’il serait possible de prendre rendez-vous ou de déplacer mon rendez-vous au "+when+".\n\nJe comprends que ce créneau est donné à titre indicatif et qu’il nécessite votre confirmation.\n\nBien cordialement,";
+ document.getElementById("message-area").hidden=false;
+});
+document.getElementById("copy-message").addEventListener("click",async()=>{
+ const area=document.getElementById("message-text");area.focus();area.select();
+ try{await navigator.clipboard.writeText(area.value);document.getElementById("copy-status").textContent="Message copié."}
+ catch(e){document.getElementById("copy-status").textContent="Sélectionnez le texte puis faites Ctrl + C pour le copier."}
 });
 </script></body></html>
